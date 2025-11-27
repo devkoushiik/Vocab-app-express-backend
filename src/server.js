@@ -1,19 +1,25 @@
 require('dotenv').config();
 const app = require('./app');
-const connectDb = require('./config/db');
 
-const PORT = process.env.PORT || 4000;
+// For Vercel serverless, export the app directly
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  // For traditional server, start listening
+  const connectDb = require('./config/db');
+  const PORT = process.env.PORT || 4000;
 
-const start = async () => {
-  await connectDb();
+  const start = async () => {
+    await connectDb();
 
-  app.listen(PORT, () => {
-    console.log(`🚀 Server listening on port ${PORT}`);
+    app.listen(PORT, () => {
+      console.log(`🚀 Server listening on port ${PORT}`);
+    });
+  };
+
+  start().catch((error) => {
+    console.error('Failed to start server', error);
+    process.exit(1);
   });
-};
-
-start().catch((error) => {
-  console.error('Failed to start server', error);
-  process.exit(1);
-});
+}
 
