@@ -126,10 +126,23 @@ const deleteVocabulary = async (req, res, next) => {
   }
 };
 
+const deleteAllVocabulary = async (req, res, next) => {
+  try {
+    const result = await Vocabulary.deleteMany({});
+    return res.json({ 
+      message: 'All vocabulary deleted successfully',
+      deletedCount: result.deletedCount 
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
   createVocabulary,
   getVocabulary,
   updateVocabulary,
   deleteVocabulary,
+  deleteAllVocabulary,
 };
 

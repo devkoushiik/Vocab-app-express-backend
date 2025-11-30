@@ -4,6 +4,7 @@ const {
   getVocabulary,
   updateVocabulary,
   deleteVocabulary,
+  deleteAllVocabulary,
 } = require('../controllers/vocabularyController');
 const ensureDbConnection = require('../middleware/dbMiddleware');
 
@@ -15,6 +16,7 @@ router.use(ensureDbConnection);
 router.post('/', createVocabulary);
 router.get('/', getVocabulary);
 router.put('/:id', updateVocabulary);
+router.delete('/all', deleteAllVocabulary); // Must be before /:id route
 router.delete('/:id', deleteVocabulary);
 
 module.exports = router;
